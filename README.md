@@ -1,6 +1,6 @@
 # Full stack open 2018 (Samuli Massinen)
 
-## Teht�ävät
+## Tehtävät
 
 ### Osa0
 
