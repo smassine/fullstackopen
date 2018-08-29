@@ -6,6 +6,6 @@
 
 ### Osa1
 
-- [Testi](https://github.com/smassine/fullstackopen/blob/master/laskarit/osa1/testitiedosto.txt)
+- [Tehtävät 1.1-1.5](https://github.com/smassine/fullstackopen/blob/master/laskarit/osa1/1.1-1.5/src/index.js)
 
 ### Osa2
