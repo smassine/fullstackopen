@@ -9,6 +9,6 @@
 ### Osa1
 
 - [Tehtävät 1.1-1.5](https://github.com/smassine/fullstackopen/blob/master/laskarit/osa1/1.1-1.5/src/index.js)
-- [Tehtävät 1.6-1.7](https://github.com/smassine/fullstackopen/blob/master/laskarit/osa1/unicafe/src/index.js)
+- [Tehtävät 1.6-1.9 & 1.11](https://github.com/smassine/fullstackopen/blob/master/laskarit/osa1/unicafe/src/index.js)
 
 ### Osa2
