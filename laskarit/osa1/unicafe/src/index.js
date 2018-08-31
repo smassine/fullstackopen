@@ -1,62 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// Tehtävä 1.6
-/*
-class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      hyva: 0,
-      neutraali: 0,
-      huono: 0
-    }
-  }
+// Tehtävät 1.6–1.9 & 1.11
 
-  klikHyva = () => {
-    this.setState({
-      hyva: this.state.hyva + 1,
-    })
-  }
+const Button = ({handleClick, text}) => (
+    <button onClick={handleClick}>
+      {text}
+    </button>
+  )
 
-  klikNeutraali = () => {
-    this.setState({
-      neutraali: this.state.neutraali + 1,
-    })
-  }
-
-  klikHuono = () => {
-    this.setState({
-      huono: this.state.huono + 1,
-    })
-  }
-
-  render() {
+const Statistic = ({nimi, arvo, prosentti}) => {
     return (
-      <div>
-        <h1>anna palautetta</h1>
-        <div>
-        <button onClick={this.klikHyva}>
-          hyva
-        </button>
-        <button onClick={this.klikNeutraali}>
-          neutraali
-        </button>
-        <button onClick={this.klikHuono}>
-          huono
-        </button>
-        </div>
-        <h1>statistiikka</h1>
-        <p>hyvä {this.state.hyva}</p>
-        <p>neutraali {this.state.neutraali}</p>
-        <p>huono {this.state.huono}</p>
-      </div>
+        <tbody>
+            <tr>
+                <td>{nimi}</td>
+                <td>{arvo}</td>
+                <td>{prosentti}</td>
+            </tr>
+        </tbody>
     )
-  }
 }
-*/
 
-// Tehtävä 1.7
+const Statistics = ({statistiikka}) => {
+    if (statistiikka.lukumaara===0) {
+        return(
+          "Ei yhtään palautetta annettu"
+        )
+    } else {
+        return (
+            <table>
+                <Statistic nimi= "Hyvä: " arvo={statistiikka.hyva} />
+                <Statistic nimi= "Neutraali: " arvo={statistiikka.neutraali} />
+                <Statistic nimi= "Huono: " arvo={statistiikka.huono} />
+                <Statistic nimi= "Keskiarvo: " arvo={statistiikka.keskiarvo.toFixed(1)} /> 
+                <Statistic nimi= "Positiivisia: " arvo={statistiikka.positiiviset.toFixed(1)} prosentti=" %" />
+            </table>
+        )
+    }
+}
 
 class App extends React.Component {
     constructor(props) {
@@ -96,24 +77,14 @@ class App extends React.Component {
 
       return (
         <div>
-          <h1>anna palautetta</h1>
+          <h1>Anna palautetta</h1>
           <div>
-          <button onClick={this.klikHyva}>
-            hyva
-          </button>
-          <button onClick={this.klikNeutraali}>
-            neutraali
-          </button>
-          <button onClick={this.klikHuono}>
-            huono
-          </button>
+            <Button handleClick={this.klikHyva} text="hyvä" />
+            <Button handleClick={this.klikNeutraali} text="neutraali" />
+            <Button handleClick={this.klikHuono} text="huono" />
           </div>
-          <h1>statistiikka</h1>
-          <p>hyvä {this.state.hyva}</p>
-          <p>neutraali {this.state.neutraali}</p>
-          <p>huono {this.state.huono}</p>
-          <p>keskiarvo {statistiikka.keskiarvo}</p>
-          <p>positiivisia {statistiikka.positiiviset}</p>
+          <h1>Statistiikka</h1>
+            <Statistics statistiikka={statistiikka} />
         </div>
       )
     }
