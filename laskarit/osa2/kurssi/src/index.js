@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Kurssit from './components/Kurssi'
 
+// Tehtävät 2.1–2.5
+
 const App = () => {
     const kurssit = [
       {
