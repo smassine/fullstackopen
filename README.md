@@ -12,3 +12,5 @@
 - [Tehtävät 1.6-1.9 & 1.11](https://github.com/smassine/fullstackopen/blob/master/laskarit/osa1/unicafe/src/index.js)
 
 ### Osa2
+
+- [Tehtävät 2.1–2.5](https://github.com/smassine/fullstackopen/tree/master/laskarit/osa2/kurssi/src)
