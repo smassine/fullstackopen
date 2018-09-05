@@ -1,6 +1,7 @@
 import React from 'react';
+import axios from 'axios';
 
-// Tehtävät 2.6–2.8 & 2.10
+// Tehtävät 2.6–2.8 & 2.10–2.11
 
 const Persons = ({list}) => {
   return (
@@ -25,12 +26,21 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      persons: [
-        { name: 'Arto Hellas', number: '040-123456'}
-      ],
+      persons: [],
       newName: '',
       newNumber: ''
     }
+    console.log('constructor')
+  }
+
+  componentDidMount() {
+    console.log('did mount')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        this.setState({ persons: response.data })
+      })
   }
 
   addPerson = (event) => {
@@ -63,16 +73,17 @@ class App extends React.Component {
   }
 
   handleNameChange = (event) => {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     this.setState({ newName: event.target.value })
   }
 
   handleNumberChange = (event) => {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     this.setState({ newNumber: event.target.value })
   }
 
   render() {
+    // console.log('render')
     return (
       <div>
         <h2>Puhelinluettelo</h2>
