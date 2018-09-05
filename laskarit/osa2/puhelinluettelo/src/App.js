@@ -1,24 +1,44 @@
 import React from 'react';
-import axios from 'axios';
+import numberService from './services/personslist'
 
-// Tehtävät 2.6–2.8 & 2.10–2.11
+// Tehtävät 2.6–2.8 & 2.10–2.11 & 2.14–2.16 & 2.18
 
-const Persons = ({list}) => {
+const Persons = ({list, deleteperson}) => {
   return (
     <table>
       <tbody>
-        {list.map(person => <Person key={person.name} person={person} />)}
+        {list.map(person => <Person key={person.name} person={person} deleteperson={deleteperson} />)}
       </tbody>
     </table>
   )
 }
 
-const Person = ({person}) => {
+const Person = ({person, deleteperson}) => {
   return (
     <tr>
       <td>{person.name}</td>
       <td>{person.number}</td>
+      <td>
+        <DeleteButton text={"poista"} onClick={deleteperson(person.id)} />
+      </td>
     </tr>
+  )
+}
+
+const DeleteButton = ({onClick, text}) => {
+  return (
+    <button onClick={onClick}>{text}</button>
+  )
+}
+
+const Notification = ({message}) => {
+  if (message === null) {
+    return null
+  }
+  return (
+    <div className="message">
+      {message}
+    </div>
   )
 }
 
@@ -28,18 +48,17 @@ class App extends React.Component {
     this.state = {
       persons: [],
       newName: '',
-      newNumber: ''
+      newNumber: '',
+      message: null
     }
-    console.log('constructor')
   }
 
   componentDidMount() {
-    console.log('did mount')
-    axios
-      .get('http://localhost:3001/persons')
+    numberService
+      .getAll()
       .then(response => {
-        console.log('promise fulfilled')
-        this.setState({ persons: response.data })
+        this.setState({ persons: response })
+        console.log('response (getAll): ', response)
       })
   }
 
@@ -51,25 +70,53 @@ class App extends React.Component {
     }
 
     const names = this.state.persons.map(person => person.name)
-    
     // console.log(names)
     // console.log(person.name)
+    const text = "Lisättiin " + person.name
 
     if (names.includes(person.name)) {
-
       console.log("Not added")
-
     } else {
-
-      const persons = this.state.persons.concat(person)
-
-      this.setState({
-        persons,
-        newName: '',
-        newNumber: ''
-      })
+      numberService
+        .create(person)
+          .then(person => {
+            console.log("response (create): ", person)
+            this.setState({
+              persons: this.state.persons.concat(person),
+              newName: '',
+              newNumber: '',
+              message: text
+            })
+            setTimeout(() => {
+              this.setState({message: null})
+            }, 3000)
+          })
     }
+  }
 
+  deletePerson = (id) => {
+    return () => {
+      const person = this.state.persons.find(person => person.id === id)
+      // console.log("delete ", person)
+      const text = "Poistettiin " + person.name
+
+      if (!window.confirm(`Poistetaanko ${person.name}?`)) {
+        return
+      } else {
+        numberService
+          .deletePerson(id)
+          .then(response => {
+            console.log("response (deletePerson): ", response)
+            this.setState({
+              persons: this.state.persons.filter(person => person.id !== id),
+              message: text
+            })
+            setTimeout(() => {
+              this.setState({message: null})
+            }, 3000)
+          })
+      }
+    }
   }
 
   handleNameChange = (event) => {
@@ -87,6 +134,7 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
+        <Notification message={this.state.message}/>
         <form onSubmit={this.addPerson}>
           <div>
             Nimi:
@@ -102,7 +150,7 @@ class App extends React.Component {
         </form>
         <h2>Numerot</h2>
         <ul>
-          <Persons list={this.state.persons} />
+          <Persons list={this.state.persons} deleteperson={this.deletePerson} />
         </ul>
       </div>
     )
